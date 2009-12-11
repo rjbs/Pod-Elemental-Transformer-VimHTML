@@ -1,6 +1,7 @@
 package Pod::Elemental::Transformer::VimHTML;
 use Moose;
 with 'Pod::Elemental::Transformer::SynHi';
+# ABSTRACT: convert "=begin vim" regions to colorized XHTML with Vim
 
 use Text::VimColor;
 
