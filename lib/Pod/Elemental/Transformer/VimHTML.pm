@@ -17,7 +17,7 @@ This transformer looks for regions like this:
 It uses L<Text::VimColor>, so you can read more about the kind of HTML it will
 produce, there.  The parameter after "=begin vim" is used as the filetype.
 
-This form is also accepted:
+This form is also accepted, in a verbatim paragraph:
 
   #!vim lisp
   (map (stuff (lisp-has-lots-of '(,parens right))))
