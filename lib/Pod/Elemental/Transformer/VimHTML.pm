@@ -1,6 +1,5 @@
 package Pod::Elemental::Transformer::VimHTML;
 use Moose;
-with 'Pod::Elemental::Transformer::SynHi';
 # ABSTRACT: convert "=begin vim" regions to colorized XHTML with Vim
 
 =head1 DESCRIPTION
@@ -33,6 +32,8 @@ future.
 
 use Text::VimColor;
 
+has format_name => (is => 'ro', isa => 'Str', default => 'vim');
+
 sub build_html {
   my ($self, $arg) = @_;
   my $string = $arg->{content};
@@ -48,29 +49,11 @@ sub build_html {
   return $self->standard_code_block( $vim->html );
 }
 
-sub synhi_params_for_para {
-  my ($self, $para) = @_;
-
-  if (
-    $para->isa('Pod::Elemental::Element::Pod5::Region')
-    and    $para->format_name eq 'vim'
-  ) {
-    die "=begin :vim makes no sense\n" if $para->is_pod;
-
-    return {
-      syntax  => $para->content,
-      content => $para->children->[0]->as_pod_string,
-    };
-  } elsif ($para->isa('Pod::Elemental::Element::Pod5::Verbatim')) {
-    my $content = $para->content;
-    return unless $content =~ s/\A\s*#!vim\s+(\S+)\n+//gsm;
-    return {
-      content => $content,
-      syntax  => $1,
-    }
-  }
-
-  return;
+sub extra_synhi_params {
+  my ($self, $str) = @_;
+  confess "no filetype provided for VimHTML region" unless $str;
+  return { syntax => $str };
 }
 
+with 'Pod::Elemental::Transformer::SynHi';
 1;
