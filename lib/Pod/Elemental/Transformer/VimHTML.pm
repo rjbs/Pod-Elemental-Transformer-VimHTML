@@ -1,5 +1,6 @@
 package Pod::Elemental::Transformer::VimHTML;
 use Moose;
+with 'Pod::Elemental::Transformer::SynHi';
 # ABSTRACT: convert "=begin vim" regions to colorized XHTML with Vim
 
 =head1 DESCRIPTION
@@ -24,20 +25,14 @@ This form is also accepted, in a verbatim paragraph:
 In the above example, the shebang-like line will be stripped.  The filetype
 parameter is I<mandatory>.
 
-B<Achtung!>  Two leading spaces are stripped from each line of the content to
-be highlighted.  This behavior may change and become more configurable in the
-future.
-
 =cut
 
 use Text::VimColor;
 
-has format_name => (is => 'ro', isa => 'Str', default => 'vim');
+has '+format_name' => (default => 'vim');
 
 sub build_html {
   my ($self, $str, $param) = @_;
-
-  $str =~ s/^  //gms;
 
   my $vim = Text::VimColor->new(
     string   => $str,
@@ -60,5 +55,4 @@ sub parse_synhi_param {
   return { filetype => $opts[0] };
 }
 
-with 'Pod::Elemental::Transformer::SynHi';
 1;
