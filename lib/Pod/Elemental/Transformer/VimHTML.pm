@@ -35,16 +35,13 @@ use Text::VimColor;
 has format_name => (is => 'ro', isa => 'Str', default => 'vim');
 
 sub build_html {
-  my ($self, $arg) = @_;
-
-  my $str = $arg->{content};
-  my $opt = $arg->{options};
+  my ($self, $str, $param) = @_;
 
   $str =~ s/^  //gms;
 
   my $vim = Text::VimColor->new(
     string   => $str,
-    filetype => $opt->{filetype},
+    filetype => $param->{filetype},
   );
 
   return $self->standard_code_block( $vim->html );
