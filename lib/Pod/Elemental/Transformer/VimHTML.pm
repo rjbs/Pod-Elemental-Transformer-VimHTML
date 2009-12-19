@@ -36,23 +36,36 @@ has format_name => (is => 'ro', isa => 'Str', default => 'vim');
 
 sub build_html {
   my ($self, $arg) = @_;
-  my $string = $arg->{content};
-  my $syntax = $arg->{syntax};
 
-  $string =~ s/^  //gms;
+  my $str = $arg->{content};
+  my $opt = $arg->{options};
+
+  $str =~ s/^  //gms;
 
   my $vim = Text::VimColor->new(
-    string   => $string,
-    filetype => $syntax,
+    string   => $str,
+    filetype => $opt->{filetype},
   );
 
   return $self->standard_code_block( $vim->html );
 }
 
-sub extra_synhi_params {
+sub extra_synhi_options {
   my ($self, $str) = @_;
-  confess "no filetype provided for VimHTML region" unless $str;
-  return { syntax => $str };
+  my ($ft, $rest) = split /\s+/, $str, 2;
+
+  my $opt = $self->parse_default_synhi_option_string($str);
+  $opt->{filetype} //= $ft;
+
+  $self->validate_synhi_options($opt);
+
+  return $opt;
+}
+
+
+sub validate_synhi_options {
+  my ($self, $opt) = @_;
+  confess "no filetype provided for VimHTML region" unless $opt->{filetype};
 }
 
 with 'Pod::Elemental::Transformer::SynHi';
