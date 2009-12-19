@@ -50,22 +50,17 @@ sub build_html {
   return $self->standard_code_block( $vim->html );
 }
 
-sub extra_synhi_options {
+sub parse_synhi_param {
   my ($self, $str) = @_;
-  my ($ft, $rest) = split /\s+/, $str, 2;
 
-  my $opt = $self->parse_default_synhi_option_string($str);
-  $opt->{filetype} //= $ft;
+  my @opts = split /\s+/, $str;
 
-  $self->validate_synhi_options($opt);
+  confess "no filetype provided for VimHTML region" unless @opts;
 
-  return $opt;
-}
+  confess "illegal VimHTML region parameter: $str"
+    unless @opts == 1 and $opts[0] !~ /:/;
 
-
-sub validate_synhi_options {
-  my ($self, $opt) = @_;
-  confess "no filetype provided for VimHTML region" unless $opt->{filetype};
+  return { filetype => $opts[0] };
 }
 
 with 'Pod::Elemental::Transformer::SynHi';
