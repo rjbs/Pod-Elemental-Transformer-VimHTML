@@ -39,7 +39,7 @@ sub build_html {
     filetype => $param->{filetype},
   );
 
-  return $self->standard_code_block( $vim->html );
+  return $vim->html;
 }
 
 sub parse_synhi_param {
