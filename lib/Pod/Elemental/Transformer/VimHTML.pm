@@ -5,7 +5,8 @@ with 'Pod::Elemental::Transformer::SynHi';
 
 =head1 DESCRIPTION
 
-This transformer looks for regions like this:
+This transformer, based on L<Pod::Elemental::Transformer::SynHi>, looks for
+regions like this:
 
   =begin vim lisp
 
@@ -24,6 +25,9 @@ This form is also accepted, in a verbatim paragraph:
 
 In the above example, the shebang-like line will be stripped.  The filetype
 parameter is I<mandatory>.
+
+The C<format_name> attribute may be supplied during the construction of the
+transformer to look for a region other than C<vim>.
 
 =cut
 
