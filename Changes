@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.093581  2011-11-02 16:21:31 America/New_York
           work around Text::VimColor expecting encoded text
 
 0.093580  2009-12-24 21:19:32 America/New_York
