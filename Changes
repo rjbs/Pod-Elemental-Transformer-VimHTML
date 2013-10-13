@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.093582  2013-10-12 22:18:38 America/New_York
           update bugtracker and repo
 
           fix spelling of dist name!
